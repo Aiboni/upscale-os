@@ -1,0 +1,2 @@
+# Visual design system
+Editorial SaaS dashboard. Dark #171524 rail, off-white #f8f8fc canvas, white card surfaces, vibrant violet #7553ef highlights, muted #9393a4 subtext. Fonts: Plus Jakarta Sans for headers; DM Sans for interface. Radius 9–14px, subtle 1px borders, generous whitespace, clear table and status badges. The visual pattern is original, not copied from UpScale's own website. Must remain usable at 375px viewport.

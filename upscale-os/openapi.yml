@@ -1,0 +1,532 @@
+openapi: 3.1.0
+info:
+  title: Upscale OS API
+  version: 1.0.0
+paths:
+  /:
+    get:
+      summary: Home
+      operationId: home__get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/health:
+    get:
+      summary: Health
+      operationId: health_api_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/leads:
+    get:
+      summary: Leads
+      operationId: leads_api_leads_get
+      parameters:
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Q
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Status
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      summary: Add Lead
+      operationId: add_lead_api_leads_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeadIn'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/leads/{id}:
+    patch:
+      summary: Edit Lead
+      operationId: edit_lead_api_leads__id__patch
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeadPatch'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      summary: Delete Lead
+      operationId: delete_lead_api_leads__id__delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/campaigns:
+    get:
+      summary: Campaigns
+      operationId: campaigns_api_campaigns_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+    post:
+      summary: Add Campaign
+      operationId: add_campaign_api_campaigns_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CampaignIn'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/campaigns/{id}:
+    patch:
+      summary: Edit Campaign
+      operationId: edit_campaign_api_campaigns__id__patch
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CampaignPatch'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      summary: Delete Campaign
+      operationId: delete_campaign_api_campaigns__id__delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/tasks:
+    get:
+      summary: Tasks
+      operationId: tasks_api_tasks_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+    post:
+      summary: Add Task
+      operationId: add_task_api_tasks_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskIn'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/tasks/{id}:
+    patch:
+      summary: Edit Task
+      operationId: edit_task_api_tasks__id__patch
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskPatch'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      summary: Delete Task
+      operationId: delete_task_api_tasks__id__delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/activities:
+    get:
+      summary: Activities
+      operationId: activities_api_activities_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/stats:
+    get:
+      summary: Stats
+      operationId: stats_api_stats_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+components:
+  schemas:
+    CampaignIn:
+      properties:
+        name:
+          type: string
+          minLength: 1
+          title: Name
+        channel:
+          type: string
+          title: Channel
+          default: Email
+        status:
+          type: string
+          title: Status
+          default: Draft
+        target:
+          type: integer
+          minimum: 1.0
+          title: Target
+          default: 100
+      type: object
+      required:
+      - name
+      title: CampaignIn
+    CampaignPatch:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        channel:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Channel
+        status:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+        target:
+          anyOf:
+          - type: integer
+            minimum: 1.0
+          - type: 'null'
+          title: Target
+        contacted:
+          anyOf:
+          - type: integer
+            minimum: 0.0
+          - type: 'null'
+          title: Contacted
+        replies:
+          anyOf:
+          - type: integer
+            minimum: 0.0
+          - type: 'null'
+          title: Replies
+      type: object
+      title: CampaignPatch
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    LeadIn:
+      properties:
+        name:
+          type: string
+          maxLength: 120
+          minLength: 1
+          title: Name
+        email:
+          type: string
+          maxLength: 255
+          minLength: 3
+          title: Email
+        company:
+          type: string
+          maxLength: 150
+          minLength: 1
+          title: Company
+        title:
+          type: string
+          title: Title
+          default: ''
+        status:
+          type: string
+          title: Status
+          default: New
+        source:
+          type: string
+          title: Source
+          default: Website
+        value:
+          type: integer
+          minimum: 0.0
+          title: Value
+          default: 0
+      type: object
+      required:
+      - name
+      - email
+      - company
+      title: LeadIn
+    LeadPatch:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        company:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Company
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+        status:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+        source:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source
+        value:
+          anyOf:
+          - type: integer
+            minimum: 0.0
+          - type: 'null'
+          title: Value
+      type: object
+      title: LeadPatch
+    TaskIn:
+      properties:
+        title:
+          type: string
+          minLength: 1
+          title: Title
+        priority:
+          type: string
+          title: Priority
+          default: Medium
+        due_date:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Due Date
+        lead_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Lead Id
+      type: object
+      required:
+      - title
+      title: TaskIn
+    TaskPatch:
+      properties:
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+        priority:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Priority
+        done:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Done
+        due_date:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Due Date
+      type: object
+      title: TaskPatch
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
