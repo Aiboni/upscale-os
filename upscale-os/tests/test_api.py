@@ -5,8 +5,8 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 # Test against an isolated SQLite database, no seeded content.
-tmp = tempfile.TemporaryDirectory()
-os.environ['DATABASE_URL'] = 'sqlite:///' + str(Path(tmp.name) / 'test.db')
+tmp = tempfile.mkdtemp()
+os.environ['DATABASE_URL'] = 'sqlite:///' + str(Path(tmp) / 'test.db')
 os.environ['SEED_DEMO'] = '0'
 from fastapi.testclient import TestClient
 from app import app, Base, engine
