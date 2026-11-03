@@ -42,13 +42,17 @@ The database is created automatically at `upscale.db`, with initial demo records
 
 ## Tests
 ```bash
-pytest -q
+pytest -q        # Windows: py -m pytest -q
 ```
+Frontend without a backend: open `http://127.0.0.1:8000/?mock=1` (see `_docs/frontend-patch.md`).
+
+## Working with AI agents
+See `AGENTS.md`, `_docs/process.md` and `_docs/team/`. Skills live in `.agents/skills/`, subagent definitions in `.agents/agents/` (copies in `.claude/` for Claude Code).
 
 ## Repo setup / GitHub Issues
 1. Push this folder to a new GitHub repository.
 2. Create labels `mvp`, `post-mvp`, and `user-test-bug`.
-3. Create GitHub issues from `_docs/issues.md`; use criteria in `_docs/task-template.md`.
+3. Create GitHub issues from `_docs/issues-groomed.md`; use `_docs/task-template.md`.
 4. Have PM refine issues, engineer implement, QA test and close issues after review.
 5. Track real testing bugs as `user-test-bug` and close them after a regression test.
 
@@ -59,7 +63,7 @@ Do not represent seeded demo records, scaffolded issue specs, or local testing a
 
 This project can run on Railway with a persistent SQLite volume. A public URL is issued by Railway after deployment, **not** by running the app on localhost.
 
-1. Create a **private** GitHub repository and upload the project files. Don't upload `.env` or `*.db`.
+1. Create a GitHub repository (**public** if your assignment requires it) and upload the project files. Don't upload `.env` or `*.db`.
 2. Visit https://railway.com/ and choose **New Project → Deploy from GitHub repo**.
 3. Select this repository. Railway uses the project's `Dockerfile` to start the app on the assigned `PORT`.
 4. Under the service, add a persistent **Volume**, mounted at `/data`.

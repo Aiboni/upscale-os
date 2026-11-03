@@ -1,4 +1,4 @@
-import os
+﻿import os
 import tempfile
 from pathlib import Path
 import sys
@@ -39,3 +39,4 @@ def test_frontend_and_schema():
         assert page.status_code == 200
         assert 'Upscale OS' in page.text
         assert client.get('/openapi.json').status_code == 200
+

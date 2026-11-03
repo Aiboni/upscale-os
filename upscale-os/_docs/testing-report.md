@@ -1,33 +1,50 @@
-# Upscale OS — QA Evidence & Test Report
+# Upscale OS — QA evidence & test report
 
-**Status: IN PROGRESS — do not treat unverified items as passes.**
+**Status: IN PROGRESS.** Items are PASS only where evidence is listed. Update this file after every real run.
 
-## Evidence already reported in project discussion
+## Evidence reported by the project owner (not re-executed by the assistant)
 | Test | Evidence | Status |
 |---|---|---|
-| Automated backend pytest | User terminal screenshot showed `2 passed, 3 warnings in 0.80s` | PASS (at time of screenshot) |
-| GitHub code push | User terminal screenshots showed successful `git push origin main` | PASS |
-| Railway deployment | User screenshot showed deployment ACTIVE / Online and HTTPS site open | PASS (at time of screenshot) |
-| SQLite persistence | User confirmed test lead remained after Railway Redeploy | PASS (reported manual test) |
-| Revenue period selector | User reported click did nothing; fix subsequently committed, but end-to-end behavior not conclusively verified | RE-TEST REQUIRED |
-| EN / RU / KZ switcher | Installation and push confirmed in terminal; full navigation/form checks not established | RE-TEST REQUIRED |
-| All other web UI interactions | No comprehensive documented walkthrough yet | NOT VERIFIED |
+| Backend pytest | Terminal screenshot earlier: `2 passed, 3 warnings` | PASS at that time; **re-run needed** (suite changed) |
+| Push to GitHub | `git push origin main` succeeded | PASS |
+| Railway deployment | Screenshot: ACTIVE / HTTPS site opens | PASS at that time |
+| SQLite persistence | Owner reports a test lead survived Railway redeploy | PASS (manual, reported) |
+| Revenue period selector | Owner reported click did nothing; fix committed | **RE-TEST REQUIRED** |
+| EN/RU/KZ switcher | Installed and pushed; full navigation not checked | **RE-TEST REQUIRED** |
+| All other UI interactions | No documented walkthrough yet | NOT VERIFIED |
 
-## Manual test checklist — fill in *after* executing
-- [ ] Dashboard: page loads without browser console errors; metrics match `/api/stats`.
-- [ ] Leads: create, edit, search, filter, delete and duplicate email behavior.
-- [ ] Campaigns: create, manage, pause, reactivate, delete, verify numbers.
-- [ ] Sales pipeline: move a test lead to next stage and confirm persistence.
-- [ ] Tasks: create, finish, delete and verify refresh.
-- [ ] Analytics: charts / metrics and CSV download verified.
-- [ ] Revenue period selector: select 3/7/12 months and confirm changed graph and labels.
-- [ ] EN/RU/KZ: translations remain through navigation and refresh; dynamic content and dialogs checked.
-- [ ] Responsive: desktop and mobile viewport layouts tested.
-- [ ] Railway storage: test lead persists after redeploy, with Volume `/data` and configured `DATABASE_URL`.
-- [ ] Regression: rerun `py -m pytest -v`, capture fresh output and attach relevant logs.
+## Checks performed while preparing this patch (honest log)
+| Check | Result |
+|---|---|
+| `static/mock-service.js` smoke test with Node (create lead lower-cases email, duplicate → 409, missing ID → 404, stats, delete) | PASS (`mock ok`) |
+| `app.py` and `tests/test_validation.py` parse as valid Python | PASS |
+| `pytest` on the new validation tests | **NOT RUN** — dependencies could not be installed in the preparation environment. Run `py -m pytest -q` locally and paste the real output below. |
+| Findings from reading the original `app.py` | Invalid emails, arbitrary stage names, replies > contacted, blank names were accepted. Drafted as `user-test-bug` in `_docs/issues-groomed.md`; fixed with regression tests. Not browser-tested. |
 
-## Defect reporting workflow
-For every reproducible bug, create a GitHub Issue labeled `user-test-bug` containing Goal, Description, reproduction steps, expected/actual results, acceptance criteria and proposed regression tests. Request PM grooming and QA retesting. Do not invent bugs to fulfill a count.
+## Latest local pytest run (fill in)
+```
+Date:
+Command: py -m pytest -q
+Result:
+```
 
-## Issue closure rule
-Only close an `mvp` or `user-test-bug` issue after QA can cite passing evidence for every acceptance criterion. Leave `post-mvp` open unless explicitly delivered and tested.
+## Manual checklist — tick only after doing it
+- [ ] Dashboard loads without console errors; metrics match `/api/stats`
+- [ ] Leads: create, edit, search, filter, delete, duplicate email, invalid email message
+- [ ] Campaigns: create, manage, pause/activate, delete, reply rate
+- [ ] Pipeline: move a lead, refresh, still moved
+- [ ] Tasks: create, complete, delete
+- [ ] Analytics + CSV export opens in Excel with correct columns
+- [ ] Mock mode `/?mock=1` works without database
+- [ ] Revenue period selector 3/7/12 months changes the chart
+- [ ] EN/RU/KZ on every page, modals and refresh
+- [ ] Mobile width 375px: no overflow, no blocked controls
+- [ ] Railway: test lead persists after redeploy (Volume `/data`)
+
+## Defect workflow
+Reproducible bug → GitHub Issue `user-test-bug` (Goal, Description, steps, expected/actual) → PM grooms → Engineer fixes + regression test → QA posts PASS/FAIL → close only after PASS.
+
+## Local pytest run (2026-11-03, Windows, Python 3.14)
+Command: py -m pytest -q
+Result: 18 passed, 3 warnings in 1.66s (warnings: FastAPI on_event deprecation)
+

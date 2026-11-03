@@ -1,6 +1,18 @@
-# GitHub issue template
-Title: clear user-visible action
-Goal: one outcome
-Description: what should happen and what is intentionally out of scope
-Acceptance criteria: [ ] observable outcome 1 [ ] edge condition [ ] tests added [ ] verified manually
-Label: mvp | post-mvp | user-test-bug
+## Goal
+
+One or two sentences on what should be true when this is done.
+
+## Acceptance criteria
+
+- [ ] A statement you can check by looking at the result
+- [ ] One line per case, including the awkward ones (empty input, duplicates, missing records)
+
+## Out of scope
+
+- Something that does not belong in this task, moved to #TASK-NUMBER
+
+## Constraints
+
+- Files this should stay inside
+- Libraries to use
+- Guidelines to follow

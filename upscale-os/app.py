@@ -2,11 +2,11 @@ from __future__ import annotations
 import os
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
-from typing import Optional
+from typing import Annotated, Literal, Optional
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, StringConstraints
 from sqlalchemy import create_engine, String, Integer, ForeignKey, DateTime, Text, select, func
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship, sessionmaker
 
@@ -52,41 +52,51 @@ class Activity(Base):
     detail: Mapped[str] = mapped_column(String(250), default='')
     created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(timezone.utc).replace(tzinfo=None))
 
+Name = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=120)]
+Company = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=150)]
+Email = Annotated[str, StringConstraints(strip_whitespace=True, max_length=255, pattern=r'^[^@\s]+@[^@\s]+\.[^@\s]+$')]
+Title200 = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=200)]
+LeadStatus = Literal['New', 'Contacted', 'Qualified', 'Proposal', 'Won', 'Lost']
+LeadSource = Literal['Website', 'Email', 'LinkedIn', 'Referral', 'Other']
+Channel = Literal['Email', 'LinkedIn', 'Multi-channel', 'Phone']
+CampaignStatus = Literal['Draft', 'Active', 'Paused']
+Priority = Literal['Low', 'Medium', 'High']
+
 class LeadIn(BaseModel):
-    name: str = Field(min_length=1, max_length=120)
-    email: str = Field(min_length=3, max_length=255)
-    company: str = Field(min_length=1, max_length=150)
+    name: Name
+    email: Email
+    company: Company
     title: str = ''
-    status: str = 'New'
-    source: str = 'Website'
+    status: LeadStatus = 'New'
+    source: LeadSource = 'Website'
     value: int = Field(default=0, ge=0)
 class LeadPatch(BaseModel):
-    name: Optional[str] = None
-    company: Optional[str] = None
+    name: Optional[Name] = None
+    company: Optional[Company] = None
     title: Optional[str] = None
-    status: Optional[str] = None
-    source: Optional[str] = None
+    status: Optional[LeadStatus] = None
+    source: Optional[LeadSource] = None
     value: Optional[int] = Field(default=None, ge=0)
 class CampaignIn(BaseModel):
-    name: str = Field(min_length=1)
-    channel: str = 'Email'
-    status: str = 'Draft'
+    name: Name
+    channel: Channel = 'Email'
+    status: CampaignStatus = 'Draft'
     target: int = Field(default=100, ge=1)
 class CampaignPatch(BaseModel):
-    name: Optional[str] = None
-    channel: Optional[str] = None
-    status: Optional[str] = None
+    name: Optional[Name] = None
+    channel: Optional[Channel] = None
+    status: Optional[CampaignStatus] = None
     target: Optional[int] = Field(default=None, ge=1)
     contacted: Optional[int] = Field(default=None, ge=0)
     replies: Optional[int] = Field(default=None, ge=0)
 class TaskIn(BaseModel):
-    title: str = Field(min_length=1)
-    priority: str = 'Medium'
+    title: Title200
+    priority: Priority = 'Medium'
     due_date: Optional[str] = None
     lead_id: Optional[int] = None
 class TaskPatch(BaseModel):
-    title: Optional[str] = None
-    priority: Optional[str] = None
+    title: Optional[Title200] = None
+    priority: Optional[Priority] = None
     done: Optional[bool] = None
     due_date: Optional[str] = None
 
@@ -190,6 +200,7 @@ def edit_campaign(id:int,data:CampaignPatch):
         x=db.get(Campaign,id)
         if not x:raise HTTPException(404,'Campaign not found')
         for k,v in data.model_dump(exclude_unset=True).items():setattr(x,k,v)
+        if x.replies > x.contacted: raise HTTPException(422,'Replies cannot exceed contacted')
         record(db,'Campaign updated',f'{x.name} · {x.status}');db.commit();db.refresh(x);return obj(x,CAMPAIGN_KEYS)
 @app.delete('/api/campaigns/{id}')
 def delete_campaign(id:int):

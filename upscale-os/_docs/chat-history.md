@@ -1,31 +1,22 @@
-# Upscale OS — Pre-development Brainstorming Conversation Record
+# Upscale OS — brainstorming record
 
-**Important:** This is a faithful *reconstructed summary* of the exchange available in this ChatGPT conversation, not a verbatim export. No dialogue or timestamps are invented. For the instructor's request for the actual chat history, also export and attach the original conversation transcript if required.
+**Important:** this is a reconstructed *summary*, not a verbatim export. If the instructor needs the literal conversation,
+export the original chat (ChatGPT/Claude → share or export) and attach it next to this file. Nothing below is invented dialogue.
+See also `brainstorm-history.md` (shorter summary) and `plan.md` (the resulting specification).
 
-## Origin of the assignment
-**User (provided assignment):** Choose a non-trivial idea different from Part I; follow the AI-native specification and full-stack development articles; use GitHub Issues with MVP/post-MVP/user-test-bug labels, a SQLite database through an ORM, mock-to-backend iterations, documentation, real testing, and a published GitHub repository.
+## Origin
+- Assignment: choose a non-trivial idea different from Part I; follow the course articles (spec-driven development, mock→backend→database iterations, GitHub Issues with `mvp` / `post-mvp` / `user-test-bug`, SQLite via an ORM, tests, public repository).
+- User chose **Upscale System LLC** from TrustMRR (B2B CRM / lead generation) as inspiration and asked for a beautiful, creative, genuinely working site.
+- Assistant proposed **Upscale OS**, an original B2B sales CRM (not a copy of the company site): leads, campaigns, pipeline, tasks, analytics.
 
-**User (idea choice):** “я выбрал эту тему Upscale System LLC из этого сайта [https://trustmrr.com/](https://trustmrr.com/)” — chose Upscale System LLC from TrustMRR as the business inspiration.
-
-**User (product goal):** “сделай мне самое офигенный, креативный, красивый сайт чтобы этот сайт открывалось еще рабочий был” — asked for an impressive, creative, beautiful and actually working website.
-
-**Assistant (initial proposal, summary):** Proposed **UPSCALE OS**, a B2B sales-intelligence / CRM platform based on the domain of lead generation and sales outreach rather than copying the company website. Core workflows: leads, campaigns, sales pipeline, tasks and analytics.
-
-**Assistant (implementation plan, summary):** FastAPI backend with SQLAlchemy and SQLite persistence; responsive HTML/CSS/JavaScript dashboard; GitHub documentation and Issues; automated API tests; Railway deployment.
-
-## Decisions and rationale
-| Decision | Why it was made |
+## Decisions
+| Decision | Reason |
 |---|---|
-| B2B sales CRM | Coherent, non-trivial full-stack project based on selected startup domain |
-| Dashboard + Leads + Campaigns + Pipeline + Tasks + Analytics | Multiple interacting business workflows, not just a landing page |
-| FastAPI + SQLAlchemy + SQLite | Meets persistence, ORM and API requirements |
-| Demo metrics where integrations absent | Avoid claiming real Stripe, email or LinkedIn activity |
-| English UI first, EN/RU/KZ later | Build the core product first, localize based on feedback |
+| B2B sales CRM | Non-trivial, several interacting workflows |
+| FastAPI + SQLAlchemy + SQLite | Persistence, ORM, OpenAPI for free |
+| Demo metrics labelled as demo | No real Stripe/email/LinkedIn integrations |
+| English UI first, EN/RU/KZ later | Core product first |
+| Railway + Volume | Simple public HTTPS URL with persistent SQLite |
 
-## Evolution after the initial idea
-The user later requested a public link rather than localhost, personal branding (Aibek Mekhlisov), Railway deployment, and support for EN/RU/KZ. During user testing the Revenue overview period selector was found unresponsive; it was reported as a bug and a fix was attempted. SQLite persistence was verified by checking that a lead remained after redeployment.
-
-## Sources and integrity
-- This record paraphrases and quotes only messages in the accessible project discussion.
-- `_docs/brainstorming.md` is a formatted product-discovery journal, not an original verbatim chat transcript.
-- Screenshots and the complete original conversation should be attached separately if the instructor requires literal conversation history.
+## Later changes
+Public link instead of localhost, personal branding, Railway deployment, EN/RU/KZ switcher, Revenue selector bug report and fix attempt, persistence check after redeploy.
