@@ -1,4 +1,4 @@
-name: Tests
+﻿name: Tests
 on:
   push:
   pull_request:
@@ -7,6 +7,9 @@ permissions:
 jobs:
   pytest:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: upscale-os
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
